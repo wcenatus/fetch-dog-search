@@ -82,6 +82,7 @@ export const CreateMatchModal = ({
                 {children}
               </Stack>
               <Button
+                disabled={favorites.length < 1}
                 type="button"
                 loading={loading}
                 onClick={() => getMatch()}
