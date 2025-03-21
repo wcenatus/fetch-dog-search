@@ -4,14 +4,11 @@ import { useFilter } from "../../context/filter-context";
 export const Pagination = () => {
   const { total, filters, setFilters, page, setPage } = useFilter();
   const [totalPages, setTotalPages] = useState(0);
-  const [size, setSize] = useState(25);
-  // const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
     // Calculate total pages
     const getTotalPages = Math.ceil(total / (filters.size || 25));
     setTotalPages(getTotalPages);
-    // setSize(filters.size || 25);
   }, [filters, total]);
 
   const handlePageChange = (pageNumber: number) => {

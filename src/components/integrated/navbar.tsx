@@ -1,5 +1,5 @@
 import { useAuth } from "@/context/auth-context";
-import { Button, Container, Typography, Sheet } from "@mui/joy";
+import { Button, Container, Sheet } from "@mui/joy";
 import logo from "@/assets/fetch.svg";
 
 export const Navbar = () => {
