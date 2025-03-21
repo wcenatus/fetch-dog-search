@@ -7,7 +7,7 @@ import DialogContent from "@mui/joy/DialogContent";
 import Stack from "@mui/joy/Stack";
 import { useState } from "react";
 import useApi from "@/hooks/useApi";
-import { Card } from "../simple/card/card";
+import { Card } from "../simple/card";
 export const CreateMatchModal = ({
   open,
   callback,
@@ -36,10 +36,7 @@ export const CreateMatchModal = ({
       );
 
       const data = await res.json();
-      console.log(data);
-
       const dog = await getDogsById(Object.values(data));
-      console.log(dog);
       setMatch(dog[0]);
     } catch (e) {
       alert("Error retrieving match");
@@ -55,7 +52,7 @@ export const CreateMatchModal = ({
         <ModalDialog>
           <DialogTitle>Here's your match!</DialogTitle>
           <Stack spacing={1}>
-            <Card key={match.id} {...match} />
+            <Card key={match.id} data={match} />
             <Button
               onClick={() => {
                 setMatch(null);

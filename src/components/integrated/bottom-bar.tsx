@@ -1,7 +1,7 @@
 import { CreateMatchModal } from "@/components/integrated/create-match";
 import { Button } from "@mui/joy";
 import { useState } from "react";
-import { RowCard } from "../simple/row-card/row-card";
+import { RowCard } from "@/components/simple/row-card";
 
 export const BottomBar = ({
   favorites,

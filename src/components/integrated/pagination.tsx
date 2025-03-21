@@ -1,34 +1,37 @@
 import { useEffect, useState } from "react";
-import { useFilter } from "../../../context/filter-context";
+import { useFilter } from "../../context/filter-context";
 
 export const Pagination = () => {
-  const { total, filters, setFilters } = useFilter();
-  const [pages, setPages] = useState(0);
+  const { total, filters, setFilters, page, setPage } = useFilter();
+  const [totalPages, setTotalPages] = useState(0);
   const [size, setSize] = useState(25);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  // const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
     // Calculate total pages
-    const totalPages = Math.ceil(total / (filters.size || 25));
-    setPages(totalPages);
-    setSize(filters.size || 25);
+    const getTotalPages = Math.ceil(total / (filters.size || 25));
+    setTotalPages(getTotalPages);
+    // setSize(filters.size || 25);
   }, [filters, total]);
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-    setFilters({ ...filters, from: JSON.stringify(size * (pageNumber - 1)) });
+    setPage(pageNumber);
+    setFilters({
+      ...filters,
+      from: JSON.stringify(filters.size * (pageNumber - 1)),
+    });
   };
 
   const generatePageNumbers = () => {
-    let startPage = Math.max(1, currentPage - 2);
-    let endPage = Math.min(pages, currentPage + 2);
+    let startPage = Math.max(1, page - 2);
+    let endPage = Math.min(totalPages, page + 2);
 
     // Ensure we show 5 page buttons at most
     if (endPage - startPage < 4) {
-      if (currentPage < 3) {
-        endPage = Math.min(5, pages);
+      if (page < 3) {
+        endPage = Math.min(5, totalPages);
       } else {
-        startPage = Math.max(1, pages - 4);
+        startPage = Math.max(1, totalPages - 4);
       }
     }
 
@@ -39,11 +42,11 @@ export const Pagination = () => {
           <button
             onClick={() => handlePageChange(i)}
             className={`cursor-pointer flex items-center justify-center px-3 h-8 leading-tight ${
-              currentPage === i
+              page === i
                 ? "text-blue-600 bg-blue-50 border-blue-300"
                 : "text-gray-500 bg-white border-gray-300 hover:bg-gray-100"
             } border`}
-            aria-current={currentPage === i ? "page" : undefined}
+            aria-current={page === i ? "page" : undefined}
           >
             {i}
           </button>
@@ -58,9 +61,9 @@ export const Pagination = () => {
       <ul className="inline-flex -space-x-px">
         <li>
           <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            aria-disabled={currentPage === 1}
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1}
+            aria-disabled={page === 1}
             className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 "
           >
             Previous
@@ -69,9 +72,9 @@ export const Pagination = () => {
         {generatePageNumbers()}
         <li>
           <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === pages}
-            aria-disabled={currentPage === pages}
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages}
+            aria-disabled={page === totalPages}
             className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 "
           >
             Next

@@ -4,9 +4,7 @@ import { Login } from "@/components/integrated/login";
 import { useAuth } from "@/context/auth-context";
 function App() {
   const { isAuthenticated } = useAuth();
-  useEffect(() => {
-    console.log(isAuthenticated);
-  }, [isAuthenticated]);
+  useEffect(() => {}, [isAuthenticated]);
 
   return <>{!isAuthenticated ? <Login /> : <DogSearch />}</>;
 }

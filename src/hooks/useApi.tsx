@@ -1,50 +1,61 @@
+import { useFilter } from "@/context/filter-context";
 import { useAuth } from "../context/auth-context";
 
 const useApi = () => {
   const { logout } = useAuth();
-  const baseUrl = (import.meta.env.VITE_API_BASE_URL as string) || "";
+  const { resetData } = useFilter();
+  const baseUrl = import.meta.env.VITE_API_BASE_URL as string;
+
+  if (!baseUrl) {
+    throw new Error("API base URL is not defined. Check your .env file.");
+  }
+
   const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
-    const headers = {
-      ...options.headers,
-    };
+    const headers = { ...options.headers };
+
     try {
-      console.log(`${baseUrl}${endpoint}`);
       const response = await fetch(`${baseUrl}${endpoint}`, {
         ...options,
         headers,
         credentials: "include",
       });
 
-      if (response.status === 401) {
-        logout();
-        throw new Error("Unauthorized: Logging out...");
+      if (!response.ok) {
+        if (response.status === 401) {
+          resetData();
+          logout();
+          throw new Error("Unauthorized: Logging out...");
+        }
+
+        const errorMessage = await response.text();
+        throw new Error(`API Error (${response.status}): ${errorMessage}`);
       }
 
       return response.json();
-    } catch (e) {
-      throw e;
+    } catch (error) {
+      console.error("API Request Failed:", error);
+      throw error;
     }
   };
 
-  //Get Information of Dogs by an array ID's
   const getDogsById = async (dog: string[]) => {
-    const response = await apiFetch("/dogs", {
+    if (!Array.isArray(dog) || dog.length === 0) {
+      throw new Error("getDogsById requires a non-empty array of dog IDs.");
+    }
+
+    return await apiFetch("/dogs", {
       method: "POST",
       body: JSON.stringify(dog),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     });
+  };
 
-    return response;
+  const getDogs = async (queryString: string) => {
+    return await apiFetch(`/dogs/search?${queryString}`, { method: "GET" });
   };
-  const getDogs = async (queryString: any) => {
-    const response = apiFetch(`/dogs/search?${queryString}`, { method: "GET" });
-    return response;
-  };
+
   const getBreeds = async () => {
-    const response = await apiFetch("/dogs/breeds", { method: "GET" });
-    return response;
+    return await apiFetch("/dogs/breeds", { method: "GET" });
   };
 
   return { apiFetch, getDogs, getBreeds, getDogsById };

@@ -1,5 +1,4 @@
 import { createContext, useState, useContext, ReactNode } from "react";
-// import { login as _login, logout as _logout } from "../api/dog-api";
 
 interface AuthContextProps {
   login: (userData: { name: string; email: string }) => Promise<void>;

@@ -15,7 +15,7 @@ interface FiltersProps {
   zipCodes?: string[];
   ageMax?: string;
   ageMin?: string;
-  size?: number;
+  size: number;
   from?: string;
   sort?:
     | "breed:asc"
@@ -23,7 +23,8 @@ interface FiltersProps {
     | "name:asc"
     | "name:desc"
     | "age:asc"
-    | "age:desc";
+    | "age:desc"
+    | "";
 }
 
 interface FilterContextProps {
@@ -32,15 +33,21 @@ interface FilterContextProps {
   loading: boolean;
   filters: FiltersProps;
   total: number;
+  page: number;
+  setPage: any;
   setFilters: any;
+  resetData: any;
 }
 const FilterContext = createContext<FilterContextProps>({
   dogs: [],
   breeds: [],
   loading: false,
-  filters: {},
+  filters: { size: 25 },
   total: 0,
+  page: 0,
+  setPage: () => {},
   setFilters: () => {},
+  resetData: () => {},
 });
 
 export const FilterProvider = ({ children }: { children: ReactNode }) => {
@@ -51,17 +58,27 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   const [breeds, setBreeds] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [filters, setFilters] = useState({ from: "0" });
+  const [filters, setFilters] = useState<FiltersProps>({ size: 25 });
+  const [page, setPage] = useState(1);
+
+  const resetData = () => {
+    setDogs([]);
+    setBreeds([]);
+    setTotal(0);
+    setLoading(false);
+    setFilters({ size: 25 });
+  };
 
   //Load data and prevent unnecesary re-fetching with useCallback
   const loadDogs = useCallback(async () => {
+    setLoading(true);
     const queryString = createQueryString(filters);
     getDogs(queryString)
       .then(async (res) => {
         const dogs = await getDogsById(res.resultIds);
+        console.log(dogs);
         setDogs(dogs);
         setTotal(res.total);
-        console.log(total);
       })
       .catch((e) => console.error("Error Fetching Data", e))
       .finally(() => setLoading(false));
@@ -73,8 +90,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
       .then((res) => {
         setBreeds(res);
       })
-      .catch((e) => console.error("Error Fetching Data", e))
-      .finally(() => setLoading(false));
+      .catch((e) => console.error("Error Fetching Data", e));
   };
 
   //Load Data when user authenticates
@@ -84,7 +100,6 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    setLoading(true);
     loadDogs();
   }, [filters]);
 
@@ -95,7 +110,10 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
         breeds,
         loading,
         total,
+        page,
+        setPage,
         filters,
+        resetData,
         setFilters,
       }}
     >
