@@ -1,5 +1,5 @@
 import { useFilter } from "@/context/filter-context";
-import { Autocomplete, Input, FormLabel } from "@mui/joy";
+import { Autocomplete, Input, FormLabel, Chip } from "@mui/joy";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 
@@ -37,17 +37,21 @@ export const Filters = () => {
       {/* Zip Codes Input */}
       <div className="w-full">
         <FormLabel>Zip Codes</FormLabel>
-        <Input
-          value={filters.zipCodes?.join(", ")} // Display selected zip codes
-          onChange={(e) => {
-            const newZipCodes = e.target.value
-              .split(",")
-              .map((zip) => zip.trim());
-            updateFilters({ zipCodes: newZipCodes }); // Update filters with new zip codes
-          }}
-          placeholder="Enter Zip Codes"
+        <Autocomplete
+          multiple
+          freeSolo
+          placeholder="Press Enter after each Zipcode"
+          options={[]}
+          value={filters.zipCodes || []}
+          onChange={(_, newValue) => updateFilters({ zipCodes: newValue })}
+          renderTags={(tags, getTagProps) =>
+            tags.map((tag, index) => (
+              <Chip {...getTagProps({ index })} key={tag} variant="soft">
+                {tag}
+              </Chip>
+            ))
+          }
           sx={{ width: "100%" }}
-          className="bg-white shadow-md rounded-md border"
         />
       </div>
 
