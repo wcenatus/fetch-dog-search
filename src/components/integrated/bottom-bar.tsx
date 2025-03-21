@@ -36,7 +36,7 @@ export const BottomBar = ({
       </CreateMatchModal>
 
       <div
-        className={`fixed bottom-0 left-0 w-full bg-white shadow-xl p-4 flex justify-center ${
+        className={`fixed bottom-0 left-0 w-full bg-white shadow-2xl p-4 flex justify-center ${
           favorites.length > 0 ? "" : "hidden"
         }`}
       >
