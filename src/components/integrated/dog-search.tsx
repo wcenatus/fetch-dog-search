@@ -50,9 +50,7 @@ export const DogSearch = () => {
 
         {/* Filters Section */}
         <div
-          className={`transition-all duration-300 ease-in-out ${
-            showFilters ? "max-h-screen" : "max-h-0 overflow-hidden"
-          }`}
+          className={`rounded p-10 bg-gray-100 ${showFilters ? "" : "hidden"}`}
         >
           <Filters />
         </div>
