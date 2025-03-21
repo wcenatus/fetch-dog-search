@@ -12,7 +12,7 @@ export const Card = ({
   callback?: (info: any) => void;
 }) => {
   return (
-    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm">
+    <div className="w-full bg-white border border-gray-200 rounded-lg shadow-sm">
       {/* Image Section */}
       <div className="w-full h-48 overflow-hidden">
         <img
