@@ -4,7 +4,7 @@ import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 
 export const Filters = () => {
-  const { dogs, breeds, filters, setFilters, loading } = useFilter();
+  const { breeds, filters, setFilters } = useFilter();
   const updateFilters = (newValue: any) => {
     setFilters({ ...filters, ...newValue });
   };
