@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (!response.ok) {
         throw new Error(`HTTP Error:${response.status}`);
       } else {
-        console.log(response.json());
         localStorage.setItem("fetch-user", JSON.stringify(userData));
         setIsAuthenticated(true);
       }
