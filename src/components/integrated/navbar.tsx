@@ -1,10 +1,9 @@
+import { useAuth } from "@/context/auth-context";
 import { Button, Container, Typography, Sheet } from "@mui/joy";
+import logo from "@/assets/fetch.svg";
 
 export const Navbar = () => {
-  const handleLogout = () => {
-    // Add your logout logic here, e.g., clearing session or redirecting
-    console.log("Logged out");
-  };
+  const { logout } = useAuth();
 
   return (
     <Sheet
@@ -14,14 +13,14 @@ export const Navbar = () => {
         justifyContent: "space-between",
         alignItems: "center",
         padding: 2,
-        backgroundColor: "white", // Customize the background color as you wish
+        backgroundColor: "white",
       }}
     >
       <Container sx={{ display: "flex" }}>
-        <Typography sx={{ fontWeight: 700 }}>LOGO</Typography>
+        <img src={logo} alt="Logo" style={{ width: "70px", height: "auto" }} />
       </Container>
 
-      <Button onClick={handleLogout} variant="outlined">
+      <Button onClick={() => logout()} variant="outlined">
         Logout
       </Button>
     </Sheet>
