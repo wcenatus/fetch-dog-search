@@ -35,17 +35,20 @@ export const DogSearch = () => {
       <Navbar />
       <div className="flex flex-col items-center space-y-6 p-6">
         {/* Container for Pagination and Filters Button */}
-        <div className="w-full flex sm:flex-row sm:items-center sm:gap-4 sm:mb-4 flex-col justify-between items-center mb-4">
-          <div className="flex-shrink-0 sm:w-auto sm:flex justify-start w-full">
+        <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-4 mb-4">
+          <div className="w-full sm:w-auto flex justify-start">
             <Pagination />
           </div>
-          <Button
-            startDecorator={<FilterAlt />}
-            variant="outlined"
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            {showFilters ? "Hide Filters" : "Show Filters"}
-          </Button>
+          <div className="w-full sm:w-auto flex justify-end">
+            <Button
+              startDecorator={<FilterAlt />}
+              variant="outlined"
+              onClick={() => setShowFilters(!showFilters)}
+              className="w-full sm:w-auto"
+            >
+              {showFilters ? "Hide Filters" : "Show Filters"}
+            </Button>
+          </div>
         </div>
 
         {/* Filters Section */}
