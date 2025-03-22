@@ -1,8 +1,8 @@
-# Take-Home Assessment
+# Fetch Dog Search
 
 ## Overview
 
-This is a React Vite project for Fetch, Here I am using the api to fetch and fiter through dogs
+This is a React Vite project built for Fetch. The application fetches dog data from an API and provides an interactive search and filtering experience. Users can filter through available dogs based on various criteria such as breed, age, and location.
 
 ## Tech Stack
 
@@ -26,6 +26,12 @@ Install dependencies:
 
 ```sh
 npm install
+```
+
+Create a .env file can enter the following variable:
+
+```sh
+VITE_API_BASE_URL=https://frontend-take-home-service.fetch.com
 ```
 
 ### Running the Application
