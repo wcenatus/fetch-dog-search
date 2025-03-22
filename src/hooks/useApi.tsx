@@ -2,7 +2,7 @@ import { useFilter } from "@/context/filter-context";
 import { useAuth } from "../context/auth-context";
 
 const useApi = () => {
-  const { logout } = useAuth();
+  const { logout, checkToken } = useAuth();
   const { resetData } = useFilter();
   const baseUrl = import.meta.env.VITE_API_BASE_URL as string;
 
@@ -12,7 +12,7 @@ const useApi = () => {
 
   const apiFetch = async (endpoint: string, options: RequestInit = {}) => {
     const headers = { ...options.headers };
-
+    checkToken();
     try {
       const response = await fetch(`${baseUrl}${endpoint}`, {
         ...options,
