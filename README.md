@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a React Vite project for a take-home assessment. The purpose of this project is to evaluate your ability to build a front-end application using modern web development tools and best practices.
+This is a React Vite project for Fetch, Here I am using the api to fetch and fiter through dogs
 
 ## Tech Stack
 
